@@ -9,22 +9,30 @@ $("document").ready(function(){
 	setUpQuestions(allQuestions, questionIndex);
 
 	$("#next").click(function() {
-		// score the question
-		var userAnswer = $("form input[type='radio']:checked").val();
-		if (userAnswer == allQuestions[questionIndex].correctAnswer) {
-			score++;
-		}
 
-		// display the next question or display the score
-		questionIndex++;
-		if (questionIndex == allQuestions.length) {
-			$("#next").hide();
-			$("#question").hide();
-			$("#choices").empty();
-			$("#score").text("Your score is: " + score);
-		} else {
-			setUpQuestions(allQuestions, questionIndex);
-		}
+    // validate radio buttons first
+    $("#error").text("");
+		var userAnswer = $("form input[type='radio']:checked").val();
+    if (userAnswer) {
+      if (userAnswer == allQuestions[questionIndex].correctAnswer) {
+        score++;
+      }
+
+      // display the next question or display the score
+      questionIndex++;
+      if (questionIndex == allQuestions.length) {
+        $("#next").hide();
+        $("#question").hide();
+        $("#choices").empty();
+        $("#score").text("Your score is: " + score);
+      } else {
+        setUpQuestions(allQuestions, questionIndex);
+      }
+    } else {
+      $("#error").text("Please choose an answer.");
+    }
+		// score the question
+		
 	});
 
 	function setUpQuestions(allQuestions, questionIndex) {
