@@ -1,0 +1,6 @@
+radio button choices
+show score upon completion
+any number of questions and any number of choices
+last page will only show score
+array will be used to store all the questions
+dynamically add next question, has a next button
