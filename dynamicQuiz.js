@@ -28,34 +28,40 @@ $("document").ready(function(){
   });
 
   function setQuizState(questionIndex, questionObject, answer) {
-    cleanState();
-    if (questionIndex !== 0) {
-      $("#back").show();
-    }
-    if (questionIndex !== allQuestions.length) {
-      $("#next").show();
-      $("#question").text(questionObject.question);
-      for (var i = 0; i < questionObject.choices.length; i++) {
-        if (i == answer) {
-          $("<input type='radio' name='question' value="+i+" checked>"+allQuestions[questionIndex].choices[i]+"<br>").appendTo("#choices");
-              } else {
-        $("<input type='radio' name='question' value="+i+">"+allQuestions[questionIndex].choices[i]+"<br>").appendTo("#choices");
-              }
+    cleanState(function () {
+      if (questionIndex !== 0) {
+        $("#back").show();
       }
-    } else {
-      var score = calculateScore();
-      $("#score").text("Your score is: " + score);
-    }
+      if (questionIndex !== allQuestions.length) {
+        $("#next").show();
+        $("#question").text(questionObject.question);
+        for (var i = 0; i < questionObject.choices.length; i++) {
+          if (i == answer) {
+            $("<input type='radio' name='question' value="+i+" checked>"+allQuestions[questionIndex].choices[i]+"<br>").appendTo("#choices");
+                } else {
+          $("<input type='radio' name='question' value="+i+">"+allQuestions[questionIndex].choices[i]+"<br>").appendTo("#choices");
+                }
+        }
+        $("#choices").fadeIn(1000);
+      } else {
+        var score = calculateScore();
+        $("#score").text("Your score is: " + score);
+      }
+    });
+    
   }
 
-  function cleanState() {
+  function cleanState(callback) {
     $("#question").text("");
-    $("#choices").empty();
     $("#score").text("");
     $("#error").text("");
     $("#next").hide();
     $("#back").hide();
-  }
+    $("#choices").fadeOut(1000, function () {
+      $(this).empty();
+      callback();
+    });
+   }
 
   function calculateScore() {
     var score = 0;
