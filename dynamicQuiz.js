@@ -1,5 +1,19 @@
 $("document").ready(function(){
   var allQuestions;
+
+  var cookieName = "username=";
+  var splitCookie = document.cookie.split(';');
+  for (var i = 0; i < splitCookie.length; i++) {
+    var c = splitCookie[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) != -1) {
+      var username = c.substring(cookieName.length, c.length);
+      $("#welcomeMessage").text("Welcome " + username);
+    }
+  }
+
    $.getJSON('dynamicQuizQuestions.json', function (data) {
      allQuestions = data;
     var quizAnswers = [];
